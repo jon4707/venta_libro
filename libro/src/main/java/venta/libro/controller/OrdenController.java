@@ -44,22 +44,18 @@ public class OrdenController {
     public Double calcularTotal(@PathVariable Long id) {
         return ordenService.calcularTotal(id);
     }
-
     @PutMapping("{id}/cambiarEstado")
     public OrdenVenta cambiarEstado(@PathVariable Long id, @RequestParam EstadoOrden nuevoEstado) {
         return ordenService.cambiarEstado(id, nuevoEstado);
     }
-
     @PostMapping("{id}/confirmarPago")
     public boolean confirmarPago(@PathVariable Long id) {
         return ordenService.confirmarPago(id);
     }
-
     @PutMapping("{id}/cancelar")
     public OrdenVenta cancelarOrden(@PathVariable Long id) {
         return ordenService.cancelarOrden(id);
     }
-
     @GetMapping("{id}/factura")
     public String generarFactura(@PathVariable Long id) {
         return ordenService.generarFactura(id);

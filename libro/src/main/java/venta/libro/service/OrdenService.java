@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import venta.libro.model.EstadoOrden;
 import venta.libro.model.OrdenVenta;
+import venta.libro.repository.EstadoOrdenRepository;
 import venta.libro.repository.OrdenRepository;
 
 @Service
@@ -15,12 +16,17 @@ import venta.libro.repository.OrdenRepository;
 public class OrdenService {
     @Autowired
     private OrdenRepository ordenRepository;
+    @Autowired
+    private EstadoOrdenRepository estadoOrdenRepository;
 
-public OrdenVenta crear(OrdenVenta ordenVenta) {
-        ordenVenta.setEstadoOrden(EstadoOrden.pendiente);
+    public OrdenVenta crear(OrdenVenta ordenVenta) {
+  
+        EstadoOrden estadoPendiente = estadoOrdenRepository.findByNombre("pendiente")
+                .orElseThrow(() -> new RuntimeException("El estado 'pendiente' no está registrado en la base de datos."));
+        
+        ordenVenta.setEstadoOrden(estadoPendiente);
         return ordenRepository.save(ordenVenta);
     }
-
     public List<OrdenVenta> listar() {
         return ordenRepository.findAll();
     }
@@ -52,7 +58,6 @@ public OrdenVenta crear(OrdenVenta ordenVenta) {
         }
         return 0.0;
     }
-
     public OrdenVenta cambiarEstado(Long id, EstadoOrden nuevoEstado) {
         OrdenVenta orden = ordenRepository.findById(id).orElse(null);
         if (orden != null) {
@@ -61,35 +66,40 @@ public OrdenVenta crear(OrdenVenta ordenVenta) {
         }
         return null;
     }
-
     public boolean confirmarPago(Long id) {
         OrdenVenta orden = ordenRepository.findById(id).orElse(null);
         if (orden != null) {
-            orden.setEstadoOrden(EstadoOrden.procesando);
+            // Buscamos el estado "procesando" en la BD
+            EstadoOrden estadoProcesando = estadoOrdenRepository.findByNombre("procesando")
+                    .orElseThrow(() -> new RuntimeException("El estado 'procesando' no existe en la BD."));
+            
+            orden.setEstadoOrden(estadoProcesando);
             ordenRepository.save(orden);
             return true;
         }
         return false;
     }
-
     public OrdenVenta cancelarOrden(Long id) {
         OrdenVenta orden = ordenRepository.findById(id).orElse(null);
         if (orden != null) {
-            orden.setEstadoOrden(EstadoOrden.cancelado);
+            // Buscamos el estado "cancelado" en la BD
+            EstadoOrden estadoCancelado = estadoOrdenRepository.findByNombre("cancelado")
+                    .orElseThrow(() -> new RuntimeException("El estado 'cancelado' no existe en la BD."));
+            
+            orden.setEstadoOrden(estadoCancelado);
             return ordenRepository.save(orden);
         }
         return null;
     }
-
     public String generarFactura(Long id) {
         OrdenVenta orden = ordenRepository.findById(id).orElse(null);
         if (orden != null) {
-            return "Factura Orden Nro: " + orden.getId() + 
-                   " - Total: $" + orden.getTotal() + 
-                   " - Estado actual: " + orden.getEstadoOrden();
+            // Como estadoOrden es un objeto, mostramos su nombre
+            String nombreEstado = (orden.getEstadoOrden() != null) ? orden.getEstadoOrden().getNombre() : "Sin estado";
+            return "Factura Orden Nro: " + orden.getId() +
+                    " - Total: $" + orden.getTotal() +
+                    " - Estado actual: " + nombreEstado;
         }
         return "Orden no encontrada";
     }
 }
-
-
