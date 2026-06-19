@@ -1,21 +1,17 @@
 package venta.libro.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "medios_pago")
-public class MedioPago {
+public enum MedioPago {
+    CREDITO,
+    DEBITO,
+    EFECTIVO,
+    TRANSFERENCIA,
+    JUNAEB;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false, unique = true)
-    @NotBlank(message = "El nombre no puede estar vacío")
-    private String nombre;
+    @JsonCreator
+    public static MedioPago fromString(String value) {
+        return MedioPago.valueOf(value.toUpperCase());
+    }
+    
 }

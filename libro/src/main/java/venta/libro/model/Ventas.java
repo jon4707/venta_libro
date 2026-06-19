@@ -1,72 +1,58 @@
 package venta.libro.model;
 
-import java.util.List;
+import java.sql.Date;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "ventas")
+@Table(name = "Ventas")
 public class Ventas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    @NotNull(message = "El subtotal es obligatorio")
-    @PositiveOrZero(message = "El subtotal no puede ser negativo")
+    @Column(name = "fecha_compra", nullable = false)
+    private Date fechaCompra;
+
+    @Column(name = "subtotal", nullable = false)
     private Double subtotal;
 
-    @Column(nullable = false)
+    @Column(name = "descuento_total")
     private Double descuentoTotal;
 
-    @Column(nullable = false)
-    @NotNull(message = "El total es obligatorio")
-    @PositiveOrZero(message = "El total no puede ser negativo")
+    @Column(name = "impuestos")
+    private Double impuestos;
+
+    @Column(name = "total", nullable = false)
     private Double total;
 
-    @ManyToOne
-    @JoinColumn(name = "id_medio_pago", nullable = true)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "medio_pago", nullable = false)
     private MedioPago medioPago;
 
-    @ManyToOne
-    @JoinColumn(name = "id_estado_venta", nullable = false)
-    @NotNull(message = "El estado de la venta es obligatorio")
-    private EstadoVenta estadoVenta;
-  
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_venta", nullable = false)
+    private TipoVenta tipoVenta;
+
+    @Column(name = "vuelto")
     private Double vuelto;
 
-    @Column(nullable = false)
-    @NotNull(message = "El ID del cliente es obligatorio")
-    @Positive(message = "El ID del cliente debe ser un número positivo")
+    @Column(name = "id_cliente")
     private Long idCliente;
 
-    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    @NotEmpty(message = "La venta debe contener al menos una orden de venta (producto)")
-    private List<OrdenVenta> ordenventas;
-}
 
+    
+}
