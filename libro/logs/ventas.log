@@ -1,0 +1,589 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------------< venta:libro >-----------------------------
+[INFO] Building  0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.6:run (default-cli) > test-compile @ libro >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ libro ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ libro ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 22 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ libro ---
+[INFO] skip non existing resourceDirectory /home/benja/workstuff/libreriaDesarrollo/intento2/venta_libro/libro/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ libro ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target/test-classes
+[INFO] 
+[INFO] <<< spring-boot:4.0.6:run (default-cli) < test-compile @ libro <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.6:run (default-cli) @ libro ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.6)
+
+2026-06-29T23:59:03.090-04:00  INFO 203838 --- [libro] [           main] venta.libro.LibroApplication             : Starting LibroApplication using Java 21.0.9 with PID 203838 (/home/benja/workstuff/libreriaDesarrollo/intento2/venta_libro/libro/target/classes started by benja in /home/benja/workstuff/libreriaDesarrollo/intento2/venta_libro/libro)
+2026-06-29T23:59:03.093-04:00  INFO 203838 --- [libro] [           main] venta.libro.LibroApplication             : No active profile set, falling back to 1 default profile: "default"
+2026-06-29T23:59:03.653-04:00  INFO 203838 --- [libro] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-29T23:59:03.694-04:00  INFO 203838 --- [libro] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 34 ms. Found 3 JPA repository interfaces.
+2026-06-29T23:59:04.042-04:00  INFO 203838 --- [libro] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8087 (http)
+2026-06-29T23:59:04.052-04:00  INFO 203838 --- [libro] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-29T23:59:04.052-04:00  INFO 203838 --- [libro] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-06-29T23:59:04.089-04:00  INFO 203838 --- [libro] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 956 ms
+2026-06-29T23:59:04.219-04:00  INFO 203838 --- [libro] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-29T23:59:04.255-04:00  INFO 203838 --- [libro] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-06-29T23:59:04.593-04:00  INFO 203838 --- [libro] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-29T23:59:04.617-04:00  INFO 203838 --- [libro] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-29T23:59:04.905-04:00  INFO 203838 --- [libro] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4df13dd0
+2026-06-29T23:59:04.906-04:00  INFO 203838 --- [libro] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-29T23:59:04.946-04:00  WARN 203838 --- [libro] [           main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-29T23:59:04.960-04:00  INFO 203838 --- [libro] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/ventas]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.45
+	Default catalog/schema: ventas/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-29T23:59:05.659-04:00  INFO 203838 --- [libro] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: 
+    create table cantidades (
+        id bigint not null auto_increment,
+        cantidad integer not null,
+        id_libro bigint not null,
+        id_venta bigint not null,
+        primary key (id)
+    ) engine=InnoDB
+Hibernate: 
+    create table descuentos (
+        id bigint not null auto_increment,
+        estado bit not null,
+        fecha_creacion datetime(6),
+        fecha_vencimiento datetime(6) not null,
+        nombre varchar(255) not null,
+        porcentaje integer not null,
+        primary key (id)
+    ) engine=InnoDB
+Hibernate: 
+    create table ventas (
+        id bigint not null auto_increment,
+        descuento_total float(53),
+        fecha_compra date not null,
+        id_cliente bigint,
+        id_sucursal bigint,
+        impuestos float(53),
+        medio_pago enum ('CREDITO','DEBITO','EFECTIVO','JUNAEB','TRANSFERENCIA'),
+        monto_pagado float(53),
+        subtotal float(53) not null,
+        tipo_venta enum ('VENTA_CAJERO','VENTA_WEB') not null,
+        total float(53) not null,
+        vuelto float(53),
+        primary key (id)
+    ) engine=InnoDB
+Hibernate: 
+    alter table cantidades 
+       add constraint FKqf02px6tjhhq2xdraufqw2076 
+       foreign key (id_venta) 
+       references ventas (id)
+2026-06-29T23:59:06.165-04:00  INFO 203838 --- [libro] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-29T23:59:06.306-04:00  INFO 203838 --- [libro] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-29T23:59:06.585-04:00  WARN 203838 --- [libro] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-29T23:59:06.896-04:00  INFO 203838 --- [libro] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8087 (http) with context path '/'
+2026-06-29T23:59:06.901-04:00  INFO 203838 --- [libro] [           main] venta.libro.LibroApplication             : Started LibroApplication in 4.13 seconds (process running for 4.41)
+2026-06-29T23:59:11.176-04:00  INFO 203838 --- [libro] [nio-8087-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-29T23:59:11.176-04:00  INFO 203838 --- [libro] [nio-8087-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-06-29T23:59:11.178-04:00  INFO 203838 --- [libro] [nio-8087-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+Hibernate: 
+    insert 
+    into
+        ventas
+        (descuento_total, fecha_compra, id_cliente, id_sucursal, impuestos, medio_pago, monto_pagado, subtotal, tipo_venta, total, vuelto) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        v1_0.id,
+        v1_0.descuento_total,
+        v1_0.fecha_compra,
+        v1_0.id_cliente,
+        v1_0.id_sucursal,
+        v1_0.impuestos,
+        v1_0.medio_pago,
+        v1_0.monto_pagado,
+        v1_0.subtotal,
+        v1_0.tipo_venta,
+        v1_0.total,
+        v1_0.vuelto 
+    from
+        ventas v1_0
+Hibernate: 
+    select
+        p1_0.id_venta,
+        p1_0.id,
+        p1_0.cantidad,
+        p1_0.id_libro 
+    from
+        cantidades p1_0 
+    where
+        p1_0.id_venta=?
+Hibernate: 
+    insert 
+    into
+        descuentos
+        (estado, fecha_creacion, fecha_vencimiento, nombre, porcentaje) 
+    values
+        (?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        descuentos
+        (estado, fecha_creacion, fecha_vencimiento, nombre, porcentaje) 
+    values
+        (?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        descuentos
+        (estado, fecha_creacion, fecha_vencimiento, nombre, porcentaje) 
+    values
+        (?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        v1_0.id,
+        v1_0.descuento_total,
+        v1_0.fecha_compra,
+        v1_0.id_cliente,
+        v1_0.id_sucursal,
+        v1_0.impuestos,
+        v1_0.medio_pago,
+        v1_0.monto_pagado,
+        v1_0.subtotal,
+        v1_0.tipo_venta,
+        v1_0.total,
+        v1_0.vuelto 
+    from
+        ventas v1_0 
+    where
+        v1_0.id=?
+Hibernate: 
+    insert 
+    into
+        cantidades
+        (cantidad, id_libro, id_venta) 
+    values
+        (?, ?, ?)
+Hibernate: 
+    update
+        ventas 
+    set
+        descuento_total=?,
+        fecha_compra=?,
+        id_cliente=?,
+        id_sucursal=?,
+        impuestos=?,
+        medio_pago=?,
+        monto_pagado=?,
+        subtotal=?,
+        tipo_venta=?,
+        total=?,
+        vuelto=? 
+    where
+        id=?
+Hibernate: 
+    select
+        v1_0.id,
+        v1_0.descuento_total,
+        v1_0.fecha_compra,
+        v1_0.id_cliente,
+        v1_0.id_sucursal,
+        v1_0.impuestos,
+        v1_0.medio_pago,
+        v1_0.monto_pagado,
+        v1_0.subtotal,
+        v1_0.tipo_venta,
+        v1_0.total,
+        v1_0.vuelto 
+    from
+        ventas v1_0 
+    where
+        v1_0.id=?
+Hibernate: 
+    select
+        p1_0.id_venta,
+        p1_0.id,
+        p1_0.cantidad,
+        p1_0.id_libro 
+    from
+        cantidades p1_0 
+    where
+        p1_0.id_venta=?
+Hibernate: 
+    insert 
+    into
+        ventas
+        (descuento_total, fecha_compra, id_cliente, id_sucursal, impuestos, medio_pago, monto_pagado, subtotal, tipo_venta, total, vuelto) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        v1_0.id,
+        v1_0.descuento_total,
+        v1_0.fecha_compra,
+        v1_0.id_cliente,
+        v1_0.id_sucursal,
+        v1_0.impuestos,
+        v1_0.medio_pago,
+        v1_0.monto_pagado,
+        v1_0.subtotal,
+        v1_0.tipo_venta,
+        v1_0.total,
+        v1_0.vuelto 
+    from
+        ventas v1_0 
+    where
+        v1_0.id=?
+Hibernate: 
+    insert 
+    into
+        cantidades
+        (cantidad, id_libro, id_venta) 
+    values
+        (?, ?, ?)
+Hibernate: 
+    select
+        d1_0.id,
+        d1_0.estado,
+        d1_0.fecha_creacion,
+        d1_0.fecha_vencimiento,
+        d1_0.nombre,
+        d1_0.porcentaje 
+    from
+        descuentos d1_0 
+    where
+        d1_0.id=? 
+        and d1_0.estado=true
+Hibernate: 
+    update
+        ventas 
+    set
+        descuento_total=?,
+        fecha_compra=?,
+        id_cliente=?,
+        id_sucursal=?,
+        impuestos=?,
+        medio_pago=?,
+        monto_pagado=?,
+        subtotal=?,
+        tipo_venta=?,
+        total=?,
+        vuelto=? 
+    where
+        id=?
+Hibernate: 
+    update
+        descuentos 
+    set
+        estado=?,
+        fecha_creacion=?,
+        fecha_vencimiento=?,
+        nombre=?,
+        porcentaje=? 
+    where
+        id=?
+Hibernate: 
+    select
+        v1_0.id,
+        v1_0.descuento_total,
+        v1_0.fecha_compra,
+        v1_0.id_cliente,
+        v1_0.id_sucursal,
+        v1_0.impuestos,
+        v1_0.medio_pago,
+        v1_0.monto_pagado,
+        v1_0.subtotal,
+        v1_0.tipo_venta,
+        v1_0.total,
+        v1_0.vuelto 
+    from
+        ventas v1_0 
+    where
+        v1_0.id=?
+Hibernate: 
+    select
+        p1_0.id_venta,
+        p1_0.id,
+        p1_0.cantidad,
+        p1_0.id_libro 
+    from
+        cantidades p1_0 
+    where
+        p1_0.id_venta=?
+Hibernate: 
+    update
+        ventas 
+    set
+        descuento_total=?,
+        fecha_compra=?,
+        id_cliente=?,
+        id_sucursal=?,
+        impuestos=?,
+        medio_pago=?,
+        monto_pagado=?,
+        subtotal=?,
+        tipo_venta=?,
+        total=?,
+        vuelto=? 
+    where
+        id=?
+Hibernate: 
+    insert 
+    into
+        ventas
+        (descuento_total, fecha_compra, id_cliente, id_sucursal, impuestos, medio_pago, monto_pagado, subtotal, tipo_venta, total, vuelto) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        v1_0.id,
+        v1_0.descuento_total,
+        v1_0.fecha_compra,
+        v1_0.id_cliente,
+        v1_0.id_sucursal,
+        v1_0.impuestos,
+        v1_0.medio_pago,
+        v1_0.monto_pagado,
+        v1_0.subtotal,
+        v1_0.tipo_venta,
+        v1_0.total,
+        v1_0.vuelto 
+    from
+        ventas v1_0 
+    where
+        v1_0.id=?
+Hibernate: 
+    insert 
+    into
+        cantidades
+        (cantidad, id_libro, id_venta) 
+    values
+        (?, ?, ?)
+Hibernate: 
+    update
+        ventas 
+    set
+        descuento_total=?,
+        fecha_compra=?,
+        id_cliente=?,
+        id_sucursal=?,
+        impuestos=?,
+        medio_pago=?,
+        monto_pagado=?,
+        subtotal=?,
+        tipo_venta=?,
+        total=?,
+        vuelto=? 
+    where
+        id=?
+Hibernate: 
+    select
+        v1_0.id,
+        v1_0.descuento_total,
+        v1_0.fecha_compra,
+        v1_0.id_cliente,
+        v1_0.id_sucursal,
+        v1_0.impuestos,
+        v1_0.medio_pago,
+        v1_0.monto_pagado,
+        v1_0.subtotal,
+        v1_0.tipo_venta,
+        v1_0.total,
+        v1_0.vuelto 
+    from
+        ventas v1_0 
+    where
+        v1_0.id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.cantidad,
+        c1_0.id_libro,
+        c1_0.id_venta 
+    from
+        cantidades c1_0 
+    where
+        c1_0.id_venta=? 
+        and c1_0.id_libro=?
+Hibernate: 
+    select
+        p1_0.id_venta,
+        p1_0.id,
+        p1_0.cantidad,
+        p1_0.id_libro 
+    from
+        cantidades p1_0 
+    where
+        p1_0.id_venta=?
+Hibernate: 
+    update
+        ventas 
+    set
+        descuento_total=?,
+        fecha_compra=?,
+        id_cliente=?,
+        id_sucursal=?,
+        impuestos=?,
+        medio_pago=?,
+        monto_pagado=?,
+        subtotal=?,
+        tipo_venta=?,
+        total=?,
+        vuelto=? 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        cantidades 
+    where
+        id=?
+Hibernate: 
+    select
+        v1_0.id,
+        v1_0.descuento_total,
+        v1_0.fecha_compra,
+        v1_0.id_cliente,
+        v1_0.id_sucursal,
+        v1_0.impuestos,
+        v1_0.medio_pago,
+        v1_0.monto_pagado,
+        v1_0.subtotal,
+        v1_0.tipo_venta,
+        v1_0.total,
+        v1_0.vuelto 
+    from
+        ventas v1_0 
+    where
+        v1_0.id=?
+Hibernate: 
+    select
+        p1_0.id_venta,
+        p1_0.id,
+        p1_0.cantidad,
+        p1_0.id_libro 
+    from
+        cantidades p1_0 
+    where
+        p1_0.id_venta=?
+Hibernate: 
+    insert 
+    into
+        ventas
+        (descuento_total, fecha_compra, id_cliente, id_sucursal, impuestos, medio_pago, monto_pagado, subtotal, tipo_venta, total, vuelto) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        cantidades
+        (cantidad, id_libro, id_venta) 
+    values
+        (?, ?, ?)
+Hibernate: 
+    select
+        v1_0.id,
+        v1_0.descuento_total,
+        v1_0.fecha_compra,
+        v1_0.id_cliente,
+        v1_0.id_sucursal,
+        v1_0.impuestos,
+        v1_0.medio_pago,
+        v1_0.monto_pagado,
+        v1_0.subtotal,
+        v1_0.tipo_venta,
+        v1_0.total,
+        v1_0.vuelto 
+    from
+        ventas v1_0
+Hibernate: 
+    select
+        p1_0.id_venta,
+        p1_0.id,
+        p1_0.cantidad,
+        p1_0.id_libro 
+    from
+        cantidades p1_0 
+    where
+        p1_0.id_venta=?
+Hibernate: 
+    select
+        p1_0.id_venta,
+        p1_0.id,
+        p1_0.cantidad,
+        p1_0.id_libro 
+    from
+        cantidades p1_0 
+    where
+        p1_0.id_venta=?
+Hibernate: 
+    select
+        p1_0.id_venta,
+        p1_0.id,
+        p1_0.cantidad,
+        p1_0.id_libro 
+    from
+        cantidades p1_0 
+    where
+        p1_0.id_venta=?
+Hibernate: 
+    select
+        p1_0.id_venta,
+        p1_0.id,
+        p1_0.cantidad,
+        p1_0.id_libro 
+    from
+        cantidades p1_0 
+    where
+        p1_0.id_venta=?
+Hibernate: 
+    select
+        d1_0.id,
+        d1_0.estado,
+        d1_0.fecha_creacion,
+        d1_0.fecha_vencimiento,
+        d1_0.nombre,
+        d1_0.porcentaje 
+    from
+        descuentos d1_0
+2026-06-30T00:08:48.440-04:00  INFO 203838 --- [libro] [nio-8087-exec-4] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 239 ms
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  15:04 min
+[INFO] Finished at: 2026-06-30T00:14:03-04:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:4.0.6:run (default-cli) on project libro: Process terminated with exit code: 137 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
