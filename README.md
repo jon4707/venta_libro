@@ -1,98 +1,72 @@
-# Ventas (venta_libro)
+# Ventas — Procesamiento de Compras y Descuentos
 
-Gestion de ventas presenciales y online, incluyendo creacion de venta, agregado de productos con descuentos, y finalizacion con calculo de impuestos.
+## Que es
 
-## Puerto
+El servicio financiero de la libreria. Registra cada venta (presencial o online), valida stock, aplica descuentos, calcula impuestos, procesa pagos, y actualiza el inventario. Es el unico servicio que modifica los precios finales y las unidades vendidas de los libros.
 
-**8087** | DB: `ventas`
+## Dos formas de vender
 
-**Nota:** El codigo fuente esta en `venta_libro/libro/`.
+### Venta presencial (en caja)
 
-## Endpoints
+Un proceso de 3 pasos que modela lo que hace un cajero en la tienda:
 
-### Ventas (`/api/v1/ventas`)
+1. **Crear venta** — Se abre una venta vacia para un cliente en una sucursal.
+2. **Agregar productos** — Uno por uno, como en una caja real. Por cada libro se consulta el precio actual al **Inventario**, se valida que haya stock, y se va acumulando el subtotal. Si el cliente tiene un codigo de descuento, se aplica ahi.
+3. **Finalizar** — Se calculan los impuestos, se procesa el pago, y se descuenta el stock.
 
-| Metodo | Ruta | Descripcion |
-|--------|------|-------------|
-| POST | `/api/v1/ventas/crear` | Crear venta (cajero) |
-| POST | `/api/v1/ventas/{id}/productos` | Agregar producto a la venta |
-| DELETE | `/api/v1/ventas/{idVenta}/productos/{idLibro}` | Quitar producto |
-| POST | `/api/v1/ventas/{id}/finalizar` | Finalizar venta (pago) |
-| POST | `/api/v1/ventas/online` | Crear venta online |
-| GET | `/api/v1/ventas` | Listar todas |
-| GET | `/api/v1/ventas/{id}` | Obtener por ID |
+### Venta online
 
-### Descuentos (`/api/v1/descuentos`)
+Todo ocurre en un solo paso atomico: se envia el carrito completo, se valida todo, se aplica descuento si hay, se paga, y se descuenta stock. Si algo falla, toda la operacion se rechaza.
 
-| Metodo | Ruta | Descripcion |
-|--------|------|-------------|
-| POST | `/api/v1/descuentos` | Generar descuentos |
-| GET | `/api/v1/descuentos` | Listar todos |
-| GET | `/api/v1/descuentos/{id}` | Obtener por ID |
+## Impuestos (IVA chileno)
 
-## Flujo de venta presencial
-
-### 1. Crear venta
-
-```json
-POST /api/v1/ventas/crear
-{
-  "idSucursal": 1,
-  "idCliente": 1
-}
+```
+impuestos = (subtotal - descuento) * 19%
+total = subtotal - descuento + impuestos
 ```
 
-### 2. Agregar productos
+El IVA se calcula sobre la base imponible (subtotal menos descuentos), no sobre el subtotal completo.
 
-```json
-POST /api/v1/ventas/{idVenta}/productos
-{
-  "idLibro": 1,
-  "cantidad": 2,
-  "descuentoId": null
-}
-```
+## Sistema de descuentos
 
-### 3. Finalizar venta
+Los descuentos son codigos de un solo uso. Un admin los crea con un nombre, porcentaje (entre 5% y 89%), fecha de vencimiento, y cuantos generar. Cada codigo es el ID de la base de datos.
 
-```json
-POST /api/v1/ventas/{idVenta}/finalizar
-{
-  "medioPago": "EFECTIVO",
-  "montoPagado": 60000
-}
-```
+**Como funciona:**
+- En venta presencial: el descuento se aplica producto por producto al momento de agregarlo.
+- En venta online: el descuento se aplica una vez, sobre el primer articulo del carrito.
+- **Al aplicarse, el descuento se desactiva automaticamente** — no se puede usar dos veces.
 
-### Medios de pago
+## Metodos de pago
 
-`EFECTIVO`, `CREDITO`, `DEBITO`, `TRANSFERENCIA`, `JUNAEB`
+| Metodo | Comportamiento |
+|--------|---------------|
+| EFECTIVO | Se requiere `montoPagado`. Si paga de mas, se calcula el vuelto. |
+| CREDITO | Se cobra el monto exacto del total. |
+| DEBITO | Igual que credito. |
+| TRANSFERENCIA | Igual que credito. |
+| JUNAEB | Igual que credito. (Tarjeta de beneficios estudiantiles chilena) |
 
-### Calculos en finalizacion
-
-- Se aplica 19% IVA sobre (subtotal - descuento)
-- total = subtotal - descuento + impuestos
-- Si es EFECTIVO: `montoPagado` debe ser >= total. Se calcula `vuelto`.
-- Para otros medios: `montoPagado = total`, `vuelto = 0`.
-
-## Generar descuentos
-
-```json
-POST /api/v1/descuentos
-{
-  "nombre": "10% OFF Semanal",
-  "fechaVencimiento": "2026-12-31",
-  "porcentaje": 10,
-  "cantidad": 3
-}
-```
-
-- `porcentaje`: entre 5 y 89
-- `cantidad`: numero de codigos a generar
-- Los descuentos son de un solo uso (se desactivan al aplicarlos)
-
-## Ejecucion
+## Ejecutar
 
 ```cmd
 cd venta_libro\libro
 .\mvnw.cmd spring-boot:run
 ```
+
+Puerto: **8087** | DB: `ventas`
+
+## Endpoints
+
+**Ventas** (`/api/v1/ventas`):
+- `POST /crear` — Crear venta presencial
+- `POST /{id}/productos` — Agregar producto (body: `{idLibro, cantidad, descuentoId?}`)
+- `DELETE /{idVenta}/productos/{idLibro}` — Quitar producto
+- `POST /{id}/finalizar` — Finalizar y pagar (body: `{medioPago, montoPagado}`)
+- `POST /online` — Venta online atomica
+- `GET /` — Listar todas
+- `GET /{id}` — Ver por ID
+
+**Descuentos** (`/api/v1/descuentos`):
+- `POST /` — Generar codigos (body: `{nombre, fechaVencimiento, porcentaje, cantidad}`)
+- `GET /` — Listar todos
+- `GET /{id}` — Ver por ID
