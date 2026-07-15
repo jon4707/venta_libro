@@ -21,6 +21,7 @@ import venta.libro.model.Descuento;
 import venta.libro.model.MedioPago;
 import venta.libro.model.TipoVenta;
 import venta.libro.model.Ventas;
+import venta.libro.exception.VentaNotFoundException;
 import venta.libro.repository.CantidadRepository;
 import venta.libro.repository.DescuentoRepository;
 import venta.libro.repository.VentasRepository;
@@ -80,7 +81,7 @@ public class VentasService {
 
 	public CantidadDTO añadirProducto(Long idVenta, AgregarProductoRequest request) {
 		Ventas venta = ventasRepository.findById(idVenta)
-				.orElseThrow(() -> new RuntimeException("Venta no encontrada"));
+				.orElseThrow(() -> new VentaNotFoundException(idVenta));
 
 		Double precioVenta = obtenerPrecioLibro(request.getIdLibro());
 		validarStockSuficiente(request.getIdLibro(), venta.getIdSucursal(), request.getCantidad());
@@ -109,7 +110,7 @@ public class VentasService {
 
 	public void eliminarProducto(Long idVenta, Long idLibro) {
 		Ventas venta = ventasRepository.findById(idVenta)
-				.orElseThrow(() -> new RuntimeException("Venta no encontrada"));
+				.orElseThrow(() -> new VentaNotFoundException(idVenta));
 
 		Cantidad cant = cantidadRepository.findByIdVentaAndIdLibro(idVenta, idLibro)
 				.orElseThrow(() -> new RuntimeException("Producto no encontrado en la venta"));
@@ -123,7 +124,7 @@ public class VentasService {
 
 	public VentasDTO finalizarCompra(Long idVenta, FinalizarCompraRequest request) {
 		Ventas venta = ventasRepository.findById(idVenta)
-				.orElseThrow(() -> new RuntimeException("Venta no encontrada"));
+				.orElseThrow(() -> new VentaNotFoundException(idVenta));
 
 		if (venta.getProductos().isEmpty()) {
 			throw new RuntimeException("La venta no tiene productos");
@@ -222,14 +223,14 @@ public class VentasService {
 	public VentasDTO obtenerVenta(Long id) {
 		return ventasRepository.findById(id)
 				.map(this::toDTO)
-				.orElseThrow(() -> new RuntimeException("Venta no encontrada"));
+				.orElseThrow(() -> new VentaNotFoundException(id));
 	}
 
 	private Double obtenerPrecioLibro(Long idLibro) {
 		try {
 			return restTemplate.getForObject(INVENTARIO_URL + "/libros/{id}/precio", Double.class, idLibro);
 		} catch (Exception e) {
-			throw new RuntimeException("Error al obtener precio del libro " + idLibro);
+			throw new RuntimeException("Error al obtener precio del libro " + idLibro, e);
 		}
 	}
 
@@ -253,7 +254,7 @@ public class VentasService {
 		} catch (RuntimeException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new RuntimeException("Error al validar stock");
+			throw new RuntimeException("Error al validar stock", e);
 		}
 	}
 
@@ -267,7 +268,7 @@ public class VentasService {
 				request.put("stock", c.getCantidad());
 				restTemplate.postForObject(url, request, String.class);
 			} catch (Exception e) {
-				throw new RuntimeException("Error al reducir stock del libro " + c.getIdLibro());
+				throw new RuntimeException("Error al reducir stock del libro " + c.getIdLibro(), e);
 			}
 		}
 	}
