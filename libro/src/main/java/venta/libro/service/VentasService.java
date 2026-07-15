@@ -42,7 +42,7 @@ public class VentasService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	private static final String INVENTARIO_URL = "http://localhost:8094/api";
+	private static final String INVENTARIO_URL = "http://localhost:9080/api";
 
 	private VentasDTO toDTO(Ventas v) {
 		VentasDTO dto = new VentasDTO();
